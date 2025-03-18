@@ -1,0 +1,16 @@
+name: Check PR Base Branch
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+
+jobs:
+  check-base-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify base branch
+        run: |
+          if [ "${{ github.event.pull_request.base.ref }}" == "main" ]; then
+            echo "PR base branch cannot be 'main' for this type of feature branch."
+            exit 1
+          fi
